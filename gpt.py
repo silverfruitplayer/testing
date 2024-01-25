@@ -118,12 +118,5 @@ async def gemini_chatbot(_, message):
         return await msg.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
 
     await message.reply_photo(image_bytes)
-        
-    except Exception as e:
-        print(e)
-
-
-
-
 app.start()
 idle()
