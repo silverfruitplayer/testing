@@ -26,10 +26,10 @@ async def start(_, message):
 @app.on_message(filters.command("ask"))
 async def gemini_chatbot(_, message):
     if len(message.command) == 1:
-        return await message.reply_msg("Please ask a question")
+        return await message.reply_message("Please ask a question")
     if not GOOGLEAI_KEY:
         return await message.reply_msg("GOOGLEAI_KEY env is missing!!!")
-    msg = await message.reply_msg("Wait a moment...")
+    msg = await message.reply_message("Wait a moment...")
     try:
         params = {
             'key': GOOGLEAI_KEY,
@@ -53,7 +53,7 @@ async def gemini_chatbot(_, message):
         )
         if not response.json().get("candidates"):
             return
-        await msg.edit_msg(html.escape(response.json()["candidates"][0]["content"]["parts"][0]["text"]))
+        await msg.edit_message(html.escape(response.json()["candidates"][0]["content"]["parts"][0]["text"]))
     except Exception as e:
         print(e)
 
