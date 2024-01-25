@@ -12,19 +12,17 @@ import requests
 import logging
 import os
 
-GOOGLEAI_KEY = ""
+GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO)
 
-app = Client("gptbot", bot_token="", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
+app = Client("hmmm", bot_token="6560962385:AAHwbTlxi7ntT6y6c8rfgu4_zgXw9y2vq2Q", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
 
 
-# Aiohttp Async Client
 session = ClientSession()
 
-# HTTPx Async Client
 fetch = AsyncClient(
     http2=True,
     verify=False,
