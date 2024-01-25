@@ -1,7 +1,7 @@
 #from pyrogram import Client, filters
 #from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from random import choice
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 #from aiohttp import ClientSession
 #from json import loads
 from pyrogram.types import Message as message
@@ -11,13 +11,13 @@ import requests
 import logging
 import os
 
-GOOGLEAI_KEY = ""
+GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO)
 
-app = Client("gptbot", bot_token="", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
+app = Client("gptbot", bot_token="6560962385:AAHwbTlxi7ntT6y6c8rfgu4_zgXw9y2vq2Q", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
 
 @app.on_message(filters.command("start"))
 async def start(_, message):
@@ -60,4 +60,4 @@ async def gemini_chatbot(_, message):
 
 
 app.start()
-app.idle()
+idle()
