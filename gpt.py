@@ -105,7 +105,7 @@ async def gemini_chatbot(_, message):
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}",
-    }env
+    }
 
     # Make the request
     response = requests.post(endpoint, json=body, headers=headers)
