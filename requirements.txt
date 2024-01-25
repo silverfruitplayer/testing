@@ -4,3 +4,5 @@ aiohttp
 openai
 requests
 httpx[http2]
+google-cloud-vision 
+configparser
