@@ -77,3 +77,5 @@ async def gemini_chatbot(_, message):
 
 app.start()
 idle()
+session.close()
+
