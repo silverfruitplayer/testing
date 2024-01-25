@@ -68,7 +68,7 @@ async def gemini_chatbot(_, message):
             timeout=20.0,
         )
         if not response.json().get("candidates"):
-            return
+            return await message.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
         await msg.edit_text(html.escape(response.json()["candidates"][0]["content"]["parts"][0]["text"]))
     except Exception as e:
         print(e)
