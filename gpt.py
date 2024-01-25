@@ -4,7 +4,7 @@ from random import choice
 from pyrogram import Client, filters, idle
 #from aiohttp import ClientSession
 #from json import loads
-from pyrogram.types import Message as message
+#from pyrogram.types import Message as message
 import asyncio
 #import openai
 import requests
