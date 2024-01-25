@@ -13,6 +13,7 @@ import requests
 import logging
 import os
 from google.cloud import vision
+from io import BytesIO
 from google.cloud.vision import types
 
 GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
