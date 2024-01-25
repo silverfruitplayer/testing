@@ -104,7 +104,7 @@ async def gemini_chatbot(_, message):
     # Headers for the request
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {GOOGLEAI_KEY}",
     }
 
     # Make the request
