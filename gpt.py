@@ -23,7 +23,7 @@ app = Client("fdfgfdfg", bot_token="6560962385:AAFHU894ykqDfAmf59Vv8HxK2w28N-h4R
 
 
 session = ClientSession()
-session.close()
+await session.close()
 
 fetch = AsyncClient(
     http2=True,
