@@ -19,7 +19,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO)
 
-app = Client("huh", bot_token="6560962385:AAHwbTlxi7ntT6y6c8rfgu4_zgXw9y2vq2Q", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
+app = Client("fdfgfdfg", bot_token="6560962385:AAFHU894ykqDfAmf59Vv8HxK2w28N-h4R9Q", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
 
 
 session = ClientSession()
