@@ -40,10 +40,13 @@ fetch = AsyncClient(
 async def start(_, message):
     await message.reply_text(f"Hi {message.from_user.mention}, Ask any question to start over.\nYou can search images too (NSFW content not allowed)")
 
-@app.on_message(filters.command("ask"))
+@app.on_message(filters.text && filters.command("ask")))
 async def gemini_chatbot(_, message):
+    text = message.text.strip().split(None, 1)[0]
+    if not text:
+        return
     if len(message.command) == 1:
-        return await message.reply_text("Please ask a question")
+        return await message.reply_text("Please ask a question")        
     if not GOOGLEAI_KEY:
         return await message.reply_text("GOOGLEAI_KEY env is missing!!!")
     msg = await message.reply_text("Wait a moment...")
