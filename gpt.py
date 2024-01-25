@@ -12,9 +12,9 @@ import asyncio
 import requests
 import logging
 import os
-from google.cloud import vision
+from google.cloud import vision_v1
+from google.cloud.vision_v1 import types
 from io import BytesIO
-from google.cloud.vision import types
 
 GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
 
