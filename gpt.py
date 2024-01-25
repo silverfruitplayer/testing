@@ -110,15 +110,16 @@ async def gemini_chatbot(_, message):
     # Make the request
     response = requests.post(endpoint, json=body, headers=headers)
     response.raise_for_status()
+    print response.json()
 
     # The API returns "image_bytes" as base64 encoded string
     #image_bytes = response.json()["candidates"][0]["image_bytes"]
 
-    print response.json()
+    
 
-    if not response.json().get("candidates"):
-        return await msg.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
+    #if not response.json().get("candidates"):
+        #return await msg.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
 
-    await message.reply_photo(image_bytes)
+    #await message.reply_photo(image_bytes)
 app.start()
 idle()
