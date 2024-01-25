@@ -40,7 +40,7 @@ fetch = AsyncClient(
 async def start(_, message):
     await message.reply_text(f"Hi {message.from_user.mention}, Ask any question to start over.\nYou can search images too (NSFW content not allowed)")
 
-@app.on_message((filters.text) & filters.command("image"))
+@app.on_message((filters.text) & filters.command("ask"))
 async def gemini_chatbot(_, message):
     if len(message.command) == 1:
         return await message.reply_text("Ask a question.")
