@@ -3,3 +3,4 @@ tgcrypto
 aiohttp
 openai
 requests
+https[http2]
