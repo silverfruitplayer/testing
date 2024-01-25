@@ -110,7 +110,7 @@ async def gemini_chatbot(_, message):
     # Make the request
     response = requests.post(endpoint, json=body, headers=headers)
     response.raise_for_status()
-    print response.json()
+    print (response.json())
 
     # The API returns "image_bytes" as base64 encoded string
     #image_bytes = response.json()["candidates"][0]["image_bytes"]
