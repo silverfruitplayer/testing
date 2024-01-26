@@ -4,5 +4,6 @@ aiohttp
 openai
 requests
 httpx[http2]
-google-cloud-vision 
+google-cloud-vision==1.0.0
 configparser
+google-colab
