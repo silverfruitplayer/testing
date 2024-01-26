@@ -40,10 +40,8 @@ async def start(_, message):
     await message.reply_text(f"Hi {message.from_user.mention}, Ask any question to start over.\nYou can search images too (NSFW content not allowed)")
 
 
-@app.on_message(filters.command("ask"))
+@app.on_message(filters.text)
 async def gemini_chatbot(_, message):
-    if len(message.command) == 1:
-        return await message.reply_text("Please ask a question")
     if not GOOGLEAI_KEY:
         return await message.reply_text("GOOGLEAI_KEY env is missing!!!")
     msg = await message.reply_text("Wait a moment...")
@@ -56,7 +54,7 @@ async def gemini_chatbot(_, message):
                 {
                     'parts': [
                         {
-                            'text': message.text.split(maxsplit=1)[1],
+                            'text': message.text,
                         },
                     ],
                 },
