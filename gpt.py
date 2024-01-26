@@ -7,7 +7,6 @@ import asyncio
 import requests
 import logging
 import os
-from google.cloud import vision
 from google.cloud import vision_v1
 from google.protobuf import json_format
 from google.protobuf.struct_pb2 import Value
@@ -88,13 +87,13 @@ async def handle_photo(client, message):
         content = image_file.read()
 
     # Construct the request to the Vision API
-    image = vision.Image(content=content)
+    image = vision_v1.Image(content=content)
     requests = [
         {
             "image": image,
             "features": [
                 {
-                    "type": vision.Feature.Type.IMAGE_PROPERTIES,
+                    "type": vision_v1.Feature.Type.IMAGE_PROPERTIES,
                 }
             ],
         }
