@@ -57,6 +57,8 @@ async def say(_, message):
         await x.edit_text(
             f"**Detail Of Image:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
         )
+        if not {response.parts[0].text}:
+            return await x.edit_text("Either your image contains NSFW materials or just an invalid format to begin with")
     except Exception as e:
         print(e)
     finally:
