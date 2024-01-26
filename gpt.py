@@ -1,6 +1,6 @@
 import html
 from random import choice
-from pyrogram import Client, filters, idle
+from pyrogram import Client, filters, idle, enums
 from aiohttp import ClientSession
 from httpx import AsyncClient, Timeout
 import asyncio
