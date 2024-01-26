@@ -7,8 +7,16 @@ import asyncio
 import requests
 import logging
 import os
+import os
+import PIL.Image
+import google.generativeai as genai
 
 GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
+
+genai.configure(api_key=GOOGLEAI_KEY)
+
+
+model = genai.GenerativeModel("gemini-pro-vision")
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -33,6 +41,32 @@ fetch = AsyncClient(
 @app.on_message(filters.command("start"))
 async def start(_, message):
     await message.reply_text(f"Hi {message.from_user.mention}, Ask any question to start over.\nYou can search images too (NSFW content not allowed)")
+
+
+@app.on_message(filters.sticker | filters.photo)
+async def say(_, message):
+    try:
+        await message.reply_text("Please Wait...")
+        
+        base_img = await message.download()
+
+        img = PIL.Image.open(base_img)
+
+        response = model.generate_content(img)
+
+        await message.edit_text(
+            f"**Detail Of Image:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+        )
+    except Exception as e:
+        await message.edit_text(f"An error occurred: {format_exc(e)}")
+    finally:
+        os.remove(base_img)
+
+
+modules_help["aimage"] = {
+    "aimage [reply to image]*": "Get details of image with Ai",
+}
+
 
 
 @app.on_message(filters.text)
