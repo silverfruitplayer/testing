@@ -8,6 +8,7 @@ import requests
 import logging
 import os
 from google.cloud import vision
+from google.cloud import vision_v1
 from google.protobuf import json_format
 from google.protobuf.struct_pb2 import Value
 
@@ -70,7 +71,11 @@ async def gemini_chatbot(_, message):
     except Exception as e:
         print(e)
 
-vision_client = vision.ImageAnnotatorClient()
+
+vision_api_key = "AIzaSyA4DY9qLKEosHtJBpKMVRUDBrnCYkbLevc"
+
+vision_client = vision_v1.ImageAnnotatorClient(credentials=vision_v1.Credentials.from_authorized_user_info(api_key=vision_api_key))
+
 
 
 @app.on_message(filters.photo & filters.sticker)
