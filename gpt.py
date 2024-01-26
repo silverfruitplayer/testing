@@ -46,25 +46,19 @@ async def start(_, message):
 @app.on_message(filters.sticker | filters.photo)
 async def say(_, message):
     try:
-        await message.reply_text("Please Wait...")
+        x = await message.reply_text("Please Wait...")
         
         base_img = await message.download()
 
-        img = PIL.Image.open(base_img)
-
         response = model.generate_content(img)
 
-        await message.edit_text(
+        await x.edit_text(
             f"**Detail Of Image:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
         )
     except Exception as e:
         print(e)
     finally:
         os.remove(base_img)
-
-
-
-
 
 @app.on_message(filters.text)
 async def gemini_chatbot(_, message):
