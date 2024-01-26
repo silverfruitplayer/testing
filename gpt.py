@@ -50,6 +50,8 @@ async def say(_, message):
         
         base_img = await message.download()
 
+        img = PIL.Image.open(base_img)
+
         response = model.generate_content(img)
 
         await x.edit_text(
