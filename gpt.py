@@ -58,14 +58,11 @@ async def say(_, message):
             f"**Detail Of Image:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
         )
     except Exception as e:
-        await message.edit_text(f"An error occurred: {format_exc(e)}")
+        print(e)
     finally:
         os.remove(base_img)
 
 
-modules_help["aimage"] = {
-    "aimage [reply to image]*": "Get details of image with Ai",
-}
 
 
 
