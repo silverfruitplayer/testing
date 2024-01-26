@@ -7,9 +7,6 @@ import asyncio
 import requests
 import logging
 import os
-from google.cloud import vision_v1
-from google.protobuf import json_format
-from google.protobuf.struct_pb2 import Value
 
 GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
 
@@ -69,62 +66,5 @@ async def gemini_chatbot(_, message):
         await msg.edit_text(html.escape(response.json()["candidates"][0]["content"]["parts"][0]["text"]))
     except Exception as e:
         print(e)
-
-
-vision_api_key = "AIzaSyA4DY9qLKEosHtJBpKMVRUDBrnCYkbLevc"
-
-vision_client = vision_v1.ImageAnnotatorClient(credentials=vision_v1.Credentials.from_authorized_user_info(api_key=vision_api_key))
-
-
-
-@app.on_message(filters.photo & filters.sticker)
-async def handle_photo(client, message):
-    # Download the photo from Telegram
-    photo_path = await message.download()
-
-    # Open the photo as a file-like object
-    with io.open(photo_path, "rb") as image_file:
-        content = image_file.read()
-
-    # Construct the request to the Vision API
-    image = vision_v1.Image(content=content)
-    requests = [
-        {
-            "image": image,
-            "features": [
-                {
-                    "type": vision_v1.Feature.Type.IMAGE_PROPERTIES,
-                }
-            ],
-        }
-    ]
-
-    # Make the request to the Vision API
-    response = vision_client.batch_annotate_images(requests=requests)
-
-    # Get the image properties from the response
-    image_properties = response[0].image_properties_annotation
-
-    # Construct the response message to send to Telegram
-    response_message = ""
-
-    # Get the dominant colors from the image
-    dominant_colors = image_properties.dominant_colors.colors
-    for color in dominant_colors:
-        response_message += f"Dominant color: {color.color.red}, {color.color.green}, {color.color.blue}\n"
-
-    # Get the image's average color
-    average_color = image_properties.dominant_colors.average_color
-    response_message += f"Average color: {average_color.red}, {average_color.green}, {average_color.blue}\n"
-
-    # Send the response message to Telegram
-    await message.reply_text(response_message)
-
-    # Delete the downloaded photo
-    os.remove(photo_path)
-
-
-
-
 app.start()
 idle()
