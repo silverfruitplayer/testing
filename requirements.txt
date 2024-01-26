@@ -1,9 +1,7 @@
 pyrogram
 tgcrypto
 aiohttp
-openai
 requests
 httpx[http2]
-google-cloud-vision==1.0.0
-configparser
 Pillow
+google-generativeai
