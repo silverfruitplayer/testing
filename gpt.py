@@ -8,7 +8,8 @@ import requests
 import logging
 import os
 import os
-import PIL.Image
+#import PIL.Image
+from PIL import Image
 import google.generativeai as genai
 
 GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
@@ -58,19 +59,18 @@ async def say(_, message):
             await x.edit_text(
                 f"**Details Of Sticker You Provided:** {response0.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
             )    
+            os.remove(sticker_path)
         else:
             if message.photo:
                 base_img = await message.download()
-                img = PIL.Image.open(base_img)
+                img = Image.open(base_img)
                 response = model.generate_content(img)
                 await x.edit_text(
                     f"**Details Of Photo You Provided:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
                 )
+                os.remove(base_img)
     except Exception as e:
         print(e)
-    finally:
-        os.remove(base_img)
-        os.remove(jpeg_path)
 
 @app.on_message(filters.text)
 async def gemini_chatbot(_, message):
