@@ -47,22 +47,30 @@ async def start(_, message):
 async def say(_, message):
     try:
         x = await message.reply_text("Please Wait...")
-        
-        base_img = await message.download()
 
-        img = PIL.Image.open(base_img)
-
-        response = model.generate_content(img)
-
-        await x.edit_text(
-            f"**Detail Of Image:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
-        )
-        if not (response):
-            return await x.edit_text("Either your image contains NSFW materials or just an invalid format to begin with")
+        if message.sticker:
+            sticker_path = await app.download_media(message.sticker.file_id)
+            image = Image.open(sticker_path)
+            jpeg_path = sticker_path.replace(".webp", ".jpeg")
+            #image.convert("RGB").save(jpeg_path, "JPEG")
+            #photo = jpeg_path
+            response0 = model.generate_content(jpeg_path)
+            await x.edit_text(
+                f"**Details Of Sticker You Provided:** {response0.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+            )    
+        else:
+            if message.photo:
+                base_img = await message.download()
+                img = PIL.Image.open(base_img)
+                response = model.generate_content(img)
+                await x.edit_text(
+                    f"**Details Of Photo You Provided:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+                )
     except Exception as e:
         print(e)
     finally:
         os.remove(base_img)
+        os.remove(jpeg_path)
 
 @app.on_message(filters.text)
 async def gemini_chatbot(_, message):
