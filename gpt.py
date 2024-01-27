@@ -53,9 +53,10 @@ async def say(_, message):
             sticker_path = await app.download_media(message.sticker.file_id)
             image = Image.open(sticker_path)
             jpeg_path = sticker_path.replace(".webp", ".jpeg")
-            #image.convert("RGB").save(jpeg_path, "JPEG")
+            image.convert("RGB").save(jpeg_path, "JPEG")
             #photo = jpeg_path
             response0 = model.generate_content(jpeg_path)
+            await message.reply_photo("jpeg_path")
             await x.edit_text(
                 f"**Details Of Sticker You Provided:** {response0.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
             )    
