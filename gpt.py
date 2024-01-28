@@ -66,6 +66,7 @@ async def say(_, message):
             if message.photo:
                 x = message.text
                 if not x:
+                    raise ValueError()
                     return await message.reply("please say what to do with this image?")
                 base_img = await message.download()
                 img = Image.open(base_img)
