@@ -81,7 +81,7 @@ async def ask(_, message):
         prompt = message.text
     
         chat = model1.start_chat(history=[])
-        chat.send_message(prompt, stream=True)
+        chat.send_message(prompt)
         await i.delete()
 
         if message.text.lower() == "/cancel":
