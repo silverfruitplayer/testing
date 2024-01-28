@@ -18,6 +18,7 @@ genai.configure(api_key=GOOGLEAI_KEY)
 
 
 model = genai.GenerativeModel("gemini-pro-vision")
+model1 = genai.GenerativeModel('gemini-pro')
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -74,37 +75,25 @@ async def say(_, message):
         print(e)
 
 @app.on_message(filters.text)
-async def gemini_chatbot(_, message):
-    if not GOOGLEAI_KEY:
-        return await message.reply_text("GOOGLEAI_KEY env is missing!!!")
-    msg = await message.reply_text("Wait a moment...")
+async def say(_, message: Message):
     try:
-        params = {
-            'key': GOOGLEAI_KEY,
-        }
-        json_data = {
-            'contents': [
-                {
-                    'parts': [
-                        {
-                            'text': message.text,
-                        },
-                    ],
-                },
-            ],
-        }
-        response = await fetch.post(
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-            params=params,
-            json=json_data,
-            timeout=20.0,
-        )
-        if not response.json().get("candidates"):
-            return await msg.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
-        await msg.edit_text(
-            f"**Your Question was:**\n{message.text}\n\n**Your Answer is:**\n{html.escape(response.json()['candidates'][0]['content']['parts'][0]['text'])}"
-        )    
+        i = await message.reply_text("Please Wait...")
+        prompt = message.text
+    
+        chat = model1.start_chat(history=[])
+        chat.send_message(prompt, stream=true)
+        i.delete()
+
+        if message_text.lower() == "/cancel":
+            model1.start_chat()
+            await message.reply("Follow-up question cancelled. Please ask a new question.")
+            return
+
+        for i in chat.history:
+        await message.reply_text(f"**Your Question Was:**`{prompt}`\n**Answer is:** {i.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN)
     except Exception as e:
-        print(e)
+        await message.reply_text(f"An error occurred: {str(e)}")
+
+
 app.start()
 idle()
