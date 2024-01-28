@@ -90,7 +90,7 @@ async def say(_, message: Message):
             return
 
         for i in chat.history:
-        await message.reply_text(f"**Your Question Was:**`{prompt}`\n**Answer is:** {i.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN)
+            await message.reply_text(f"**Your Question Was:**`{prompt}`\n**Answer is:** {i.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN)
     except Exception as e:
         await message.reply_text(f"An error occurred: {str(e)}")
 
