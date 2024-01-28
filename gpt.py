@@ -64,7 +64,7 @@ async def say(_, message):
             os.remove(sticker_path)
         else:
             if message.photo:
-                y = message.reply_to_message.text
+                y = message.reply_to_message.photo
                 base_img = await message.download()
                 img = Image.open(base_img)
                 if y:
@@ -85,6 +85,8 @@ async def say(_, message):
 async def gemini_chatbot(_, message):
     if not GOOGLEAI_KEY:
         return await message.reply_text("GOOGLEAI_KEY env is missing!!!")
+    if message.reply_to_message:
+        return
     msg = await message.reply_text("Wait a moment...")
     try:
         params = {
