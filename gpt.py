@@ -82,9 +82,9 @@ async def ask(_, message):
     
         chat = model1.start_chat(history=[])
         chat.send_message(prompt, stream=True)
-        i.delete()
+        await i.delete()
 
-        if message_text.lower() == "/cancel":
+        if message.text.lower() == "/cancel":
             model1.start_chat()
             await message.reply("Follow-up question cancelled. Please ask a new question.")
             return
