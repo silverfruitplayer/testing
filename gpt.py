@@ -24,11 +24,11 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO)
 
-app = Client("geminiai", bot_token="5808857616:AAElBa0KAWMe-YF9c34hBh0ydTTlihA_hrE", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
+app = Client("hmmm", bot_token="5808857616:AAHOGP2XmsIiP2OiQAbBa2i-UOW_Rh099JY", api_id=6, api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
 
 
-session = ClientSession()
-session.close()
+#session = ClientSession()
+#session.close()
 
 fetch = AsyncClient(
     http2=True,
@@ -64,19 +64,10 @@ async def say(_, message):
             os.remove(sticker_path)
         else:
             if message.photo:
-                y = message.reply_to_message.photo
-                base_img = await message.download()
-                img = Image.open(base_img)
-                if y:
-                    response = model.generate_content([f"{y}"],img)
-                    await x.edit_text( 
-                        f"**You Asked {y}**\n\n** And Details Of Photo You Provided:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
-                    )
-                else:
-                    response = model.generate_content(img)
-                    await x.edit_text( 
-                        f"**Details Of Photo You Provided (Because you have not provided Any Caption so providing the explaination Please Reply With Some Question To Generate):**\n\n{response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
-                    )                    
+                response = model.generate_content(img)
+                await x.edit_text( 
+                    f"**Details Of Photo You Provided (Because you have not provided Any Caption so providing the explaination Please Reply With Some Question To Generate):**\n\n{response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+                )                    
                 os.remove(base_img)
     except Exception as e:
         print(e)
@@ -103,7 +94,7 @@ async def gemini_chatbot(_, message):
                 },
             ],
         }
-        response = await fetch.post(
+        response = requests.post(
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
             params=params,
             json=json_data,
