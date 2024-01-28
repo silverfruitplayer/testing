@@ -75,22 +75,38 @@ async def say(_, message):
         print(e)
 
 @app.on_message(filters.text)
-async def ask(_, message):
+async def gemini_chatbot(_, message):
+    if not GOOGLEAI_KEY:
+        return await message.reply_text("GOOGLEAI_KEY env is missing!!!")
+    msg = await message.reply_text("Wait a moment...")
     try:
-        i = await message.reply_text("Please Wait...")
-        prompt = message.text
-    
-        chat = model1.start_chat()
-        response = chat.send_message(prompt)
-        await i.delete()
-
-        if message.text.lower() == "/cancel":
-            model1.start_chat()
-            await message.reply("Follow-up question cancelled. Please ask a new question.")
-            return
-        await message.reply_text(f"**Your Question Was:**`{prompt}`\n**Answer is:** {response.text}", parse_mode=enums.ParseMode.MARKDOWN)
+        params = {
+            'key': GOOGLEAI_KEY,
+        }
+        json_data = {
+            'contents': [
+                {
+                    'parts': [
+                        {
+                            'text': message.text,
+                        },
+                    ],
+                },
+            ],
+        }
+        response = await fetch.post(
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+            params=params,
+            json=json_data,
+            timeout=20.0,
+        )
+        if not response.json().get("candidates"):
+            return await msg.edit_text("Your question contains slang or foul languages that has been blocked for security reasons.")
+        await msg.edit_text(
+            f"**Your Question was:**\n{message.text}\n\n**Your Answer is:**\n{html.escape(response.json()['candidates'][0]['content']['parts'][0]['text'])}"
+        )    
     except Exception as e:
-        await message.reply_text(f"An error occurred: {str(e)}")
+        print(e)
 
 
 app.start()
