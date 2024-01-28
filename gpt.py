@@ -75,7 +75,7 @@ async def say(_, message):
         print(e)
 
 @app.on_message(filters.text)
-async def say(_, message: Message):
+async def ask(_, message):
     try:
         i = await message.reply_text("Please Wait...")
         prompt = message.text
