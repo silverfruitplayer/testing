@@ -64,7 +64,7 @@ async def say(_, message):
             os.remove(sticker_path)
         else:
             if message.photo:
-                y = message.text
+                y = message.reply_to_message.text
                 base_img = await message.download()
                 img = Image.open(base_img)
                 if y:
@@ -75,7 +75,7 @@ async def say(_, message):
                 else:
                     response = model.generate_content(img)
                     await x.edit_text( 
-                        f"**Details Of Photo You Provided (Because you have not provided anycaption so providing the explaination):** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+                        f"**Details Of Photo You Provided (Because you have not provided Any Caption so providing the explaination Please Reply With Some Question To Generate):**\n\n{response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
                     )                    
                 os.remove(base_img)
     except Exception as e:
