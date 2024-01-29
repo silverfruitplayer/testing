@@ -64,7 +64,7 @@ async def say(_, message):
                 base_img = await message.download()
                 img = Image.open(base_img)
                 if y and y.text:
-                    response = model.generate_content([f"{y}"],img)
+                    response = model.generate_content([f"{message.reply_to_message.text}"],img)
                     await x.edit_text( 
                         f"**You Asked {y}**\n\n** And Details Of Photo You Provided:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
                     )
