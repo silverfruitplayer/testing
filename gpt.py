@@ -50,7 +50,7 @@ async def say(_, message):
     try:
         x = await message.reply_text("Please Wait...")
         if message.sticker:
-            file_path = await message.reply_to_message.download(DOWNLOAD)
+            file_path = await message.download(DOWNLOAD)
             files = {'upfile': ('blob', open(file_path, 'rb'), 'image/jpeg')}
             response0 = model.generate_content(files)
             await message.reply_photo(files)
