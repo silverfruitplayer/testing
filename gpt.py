@@ -51,13 +51,10 @@ async def say(_, message):
         x = await message.reply_text("Please Wait...")
 
         if message.sticker:
-            sticker_path = await app.download_media(message.sticker.file_id)
-            image = Image.open(sticker_path)
-            jpeg_path = sticker_path.replace(".webp", ".jpeg")
-            x = image.convert("RGB").save(jpeg_path, "JPEG")
+            sticker_path = await app.download_media(f"{message.sticker.file_unique_id}.png")
             #photo = jpeg_path
-            response0 = model.generate_content(x)
-            await message.reply_photo(jpeg_path)
+            response0 = model.generate_content(sticker_path)
+            await message.reply_photo(sticker_path)
             await x.edit_text(
                 f"**Details Of Sticker You Provided:** {response0.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
             )    
