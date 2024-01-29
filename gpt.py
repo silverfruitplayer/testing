@@ -64,10 +64,19 @@ async def say(_, message):
             os.remove(sticker_path)
         else:
             if message.photo:
-                response = model.generate_content(img)
-                await x.edit_text( 
-                    f"**Details Of Photo You Provided (Because you have not provided Any Caption so providing the explaination Please Reply With Some Question To Generate):**\n\n{response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
-                )                    
+                y = message.reply_to_message
+                base_img = await message.download()
+                img = Image.open(base_img)
+                if y:
+                    response = model.generate_content([f"{y}"],img)
+                    await x.edit_text( 
+                        f"**You Asked {y}**\n\n** And Details Of Photo You Provided:** {response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+                    )
+                else:
+                    response = model.generate_content(img)
+                    await x.edit_text( 
+                        f"**Details Of Photo You Provided (Because you have not provided Any Caption so providing the explaination Please Reply With Some Question To Generate):**\n\n{response.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
+                    )                    
                 os.remove(base_img)
     except Exception as e:
         print(e)
