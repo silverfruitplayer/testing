@@ -16,7 +16,7 @@ GOOGLEAI_KEY = "AIzaSyC2cKZRxUsoCfYaveyab08QEp7jxsRWrJk"
 
 genai.configure(api_key=GOOGLEAI_KEY)
 
-
+DOWNLOAD = "./DownLoads"
 model = genai.GenerativeModel("gemini-pro-vision")
 model1 = genai.GenerativeModel('gemini-pro')
 
@@ -49,16 +49,15 @@ async def start(_, message):
 async def say(_, message):
     try:
         x = await message.reply_text("Please Wait...")
-
         if message.sticker:
-            sticker_path = await app.download_media(f"{message.sticker.file_unique_id}.png")
-            #photo = jpeg_path
-            response0 = model.generate_content(sticker_path)
-            await message.reply_photo(sticker_path)
+            file_path = await message.reply_to_message.download(DOWNLOAD)
+            files = {'upfile': ('blob', open(file_path, 'rb'), 'image/jpeg')}
+            response0 = model.generate_content(files)
+            await message.reply_photo(files)
             await x.edit_text(
                 f"**Details Of Sticker You Provided:** {response0.parts[0].text}", parse_mode=enums.ParseMode.MARKDOWN
             )    
-            os.remove(sticker_path)
+            os.remove(file_path)
         else:
             if message.photo:
                 y = message.reply_to_message
